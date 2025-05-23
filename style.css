@@ -1,1 +1,43 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color:#f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #222;
+}
+header {
+  background-color: #003366;
+  color: white;
+  padding: 2rem 1rem;
+  text-allign:center;
+}
+main {
+  max-width: 990px;
+  margin: 2rem auto;
+  padding 0 1rem;
+}
+#controls {
+  margin-bottom: 1rem;
+  text-align: right;
+}
+#stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#stats-table th,
+#stats-table td {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
 
+  
+  
