@@ -5,7 +5,7 @@ async function fetchData() {
   const text = await response.text();
   const rows = text.trim().split('\n').slice(1);
   const data = rows.map(row => {
-    const [player, year, goals, assists, goals against, saves, shutouts };
+    const [player, grade, year, goals, assists, Points, GA, saves, shutouts };
 });
 
   return data;
@@ -17,10 +17,12 @@ function populateTable(data) {
   data.forEach(({ player, year, goals, assists, goals against, saves, shutouts }) => {
                const row = '<tr>
                  <td>${player}</td>
+                 <td>${grade}</td>
                  <td>${year}</td>
                  <td>${goals}</td>
                  <td>${assists}</td>
-                 <td>${goals against}</td>
+                 <td>${points}</td>
+                 <td>${GA}</td>
                  <td>${saves}</td>
                  <td>${shutouts}</td>
                 </tr>';
