@@ -39,5 +39,14 @@ footer {
   color: #666;
 }
 
-  
+th {
+  cursor: pointer;
+  user-select: none;
+}
+
+th.sorted {
+  background-color: #eef6ff;
+  color: #003366;
+}
+
   
