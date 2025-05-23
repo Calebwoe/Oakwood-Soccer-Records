@@ -48,21 +48,36 @@ th.sorted {
   background-color: #eef6ff;
   color: #003366;
 }
+/* Navigation styles */
 nav {
-  margin: 10px 0;
+  margin: 20px auto;
   text-align: center;
 }
 
 nav a {
+  display: inline-block;
+  padding: 10px 20px;
   margin: 0 10px;
   text-decoration: none;
-  color: #003366;
   font-weight: bold;
+  color: #004085;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  background-color: #e2e6ea;
+  color: #002752;
 }
+
+nav a.active {
+  background-color: #ffffff;
+  border-bottom: 2px solid white;
+  color: #000;
+}
+
 
 
   
