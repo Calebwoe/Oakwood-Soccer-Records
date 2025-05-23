@@ -63,5 +63,23 @@ fetchData().then(data => {
   console.error('Error loading or parsing data:', err);
 });
 
+let currentSort = { key: '', asc: true };
+
+function sortTable(key) {
+  if (currentSort.key === key) {
+    currentSort.asc = !currentSort.asc;
+  } else {
+    currentSort = { key, asc: true };
+  }
+
+  fetchData().then(data => {
+    const sorted = data.sort((a, b) => {
+      const valA = isNaN(a[key]) ? a[key] : +a[key];
+      const valB = isNaN(b[key]) ? b[key] : +b[key];
+      return currentSort.asc ? valA > valB ? 1 : -1 : valA < valB ? 1 : -1;
+    });
+    populateTable(sorted);
+  });
+}
 
     
