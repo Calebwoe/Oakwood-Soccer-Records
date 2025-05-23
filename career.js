@@ -30,7 +30,7 @@ fetch('Oakwood Soccer Project - Individual Statistics.csv')
       });
     });
 
-    const tbody = document.querySelector('#career-stats tbody');
+    const tbody = document.querySelector('#career-stats-table tbody');
     Object.entries(totals).forEach(([name, stats]) => {
       const row = `
         <tr>
