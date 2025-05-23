@@ -51,20 +51,25 @@ fetch('Oakwood Soccer Project - Individual Statistics.csv')
     });
   });
 
-// Sorting function with arrows
+let currentSortedColumn = null;
+let currentSortOrder = 'asc';
+
 function sortCareerTable(column) {
   const table = document.getElementById('career-stats-table');
   const tbody = table.querySelector('tbody');
   const rows = Array.from(tbody.querySelectorAll('tr'));
   const headers = Array.from(table.querySelectorAll('thead th'));
-  const columnIndex = headers.findIndex(th => th.textContent.trim() === column);
+  const columnIndex = headers.findIndex(th => th.textContent.trim().replace(/[\u2191\u2193]/g, '') === column);
 
-  // Determine and toggle sort order
-  const current = headers[columnIndex];
-  const currentArrow = current.querySelector('span');
-  const ascending = !current.classList.contains('sorted-asc');
+  // Determine new sort order
+  if (currentSortedColumn === column) {
+    currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+  } else {
+    currentSortedColumn = column;
+    currentSortOrder = 'asc';
+  }
 
-  // Reset all arrows
+  // Reset all headers
   headers.forEach(th => {
     th.classList.remove('sorted-asc', 'sorted-desc');
     const span = th.querySelector('span');
@@ -72,10 +77,12 @@ function sortCareerTable(column) {
   });
 
   // Add arrow to current column
-  current.classList.add(ascending ? 'sorted-asc' : 'sorted-desc');
-  currentArrow.textContent += ascending ? ' ↑' : ' ↓';
+  const current = headers[columnIndex];
+  const span = current.querySelector('span');
+  current.classList.add(currentSortOrder === 'asc' ? 'sorted-asc' : 'sorted-desc');
+  span.textContent = column + (currentSortOrder === 'asc' ? ' ↑' : ' ↓');
 
-  // Sort rows
+  // Sort logic
   rows.sort((a, b) => {
     const cellA = a.children[columnIndex].textContent.trim();
     const cellB = b.children[columnIndex].textContent.trim();
@@ -83,13 +90,14 @@ function sortCareerTable(column) {
     const numB = parseFloat(cellB);
 
     if (!isNaN(numA) && !isNaN(numB)) {
-      return ascending ? numA - numB : numB - numA;
+      return currentSortOrder === 'asc' ? numA - numB : numB - numA;
     }
-    return ascending
+    return currentSortOrder === 'asc'
       ? cellA.toLowerCase().localeCompare(cellB.toLowerCase())
       : cellB.toLowerCase().localeCompare(cellA.toLowerCase());
   });
 
-  // Re-attach sorted rows
   rows.forEach(row => tbody.appendChild(row));
 }
+
+  
