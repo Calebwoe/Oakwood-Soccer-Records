@@ -25,15 +25,15 @@ function populateTable(data) {
   data.forEach(player => {
     const row = `
       <tr>
-        <td>${player.Player}</td>
+        <td>${player["Player Name"}</td>
         <td>${player.Grade}</td>
         <td>${player.Year}</td>
         <td>${player.Goals}</td>
         <td>${player.Assists}</td>
-        <td>${player.Points}</td>
-        <td>${player['Goals Against']}</td>
+        <td>${player["PTS"]}</td>
+        <td>${player["Goals Against"]}</td>
         <td>${player.Saves}</td>
-        <td>${player.Shutouts}</td>
+        <td>${player.Shutout}</td>
       </tr>
     `;
     tbody.insertAdjacentHTML('beforeend', row);
