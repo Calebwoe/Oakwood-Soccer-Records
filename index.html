@@ -16,18 +16,19 @@
     <section id="table-container">
       <table id="stats-table">
         <thead>
-          <tr>
-            <th>Player</th>
-            <th>Grade</th>
-            <th>Year</th>
-            <th>Goals</th>
-            <th>Assists</th>
-            <th>Points</th>
-            <th>Goals Against</th>
-            <th>Saves</th>
-            <th>Shutouts</th>
-          </tr>
-        </thead>
+  <tr>
+    <th onclick="sortTable('Player Name')">Player</th>
+    <th onclick="sortTable('Grade')">Grade</th>
+    <th onclick="sortTable('Year')">Year</th>
+    <th onclick="sortTable('Goals')">Goals</th>
+    <th onclick="sortTable('Assists')">Assists</th>
+    <th onclick="sortTable('PTS')">Points</th>
+    <th onclick="sortTable('Goals Allowed')">Goals Against</th>
+    <th onclick="sortTable('Saves')">Saves</th>
+    <th onclick="sortTable('Shutout')">Shutouts</th>
+  </tr>
+</thead>
+
         <tbody>
           <!-- Data rows will be populated by JavaScript -->
         </tbody>
