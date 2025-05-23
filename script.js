@@ -78,8 +78,26 @@ function sortTable(key) {
       const valB = isNaN(b[key]) ? b[key] : +b[key];
       return currentSort.asc ? valA > valB ? 1 : -1 : valA < valB ? 1 : -1;
     });
+
     populateTable(sorted);
+    updateSortIndicators(key);
   });
 }
+
+function updateSortIndicators(sortedKey) {
+  const headers = document.querySelectorAll('#stats-table thead th');
+  headers.forEach(header => {
+    const span = header.querySelector('span');
+    const headerKey = span.textContent.trim();
+    span.textContent = headerKey; // Reset to original
+    header.classList.remove('sorted');
+
+    if (headerKey === sortedKey) {
+      span.textContent += currentSort.asc ? ' ▲' : ' ▼';
+      header.classList.add('sorted');
+    }
+  });
+}
+
 
     
