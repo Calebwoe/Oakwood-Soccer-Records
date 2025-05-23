@@ -8,17 +8,11 @@ async function fetchData() {
 
   const data = rows.slice(1).map(row => {
     const values = row.split(',');
-    return {
-      player: values[0],
-      grade: values[1],
-      year: values[2],
-      goals: values[3],
-      assists: values[4],
-      points: values[5],
-      GA: values[6],
-      saves: values[7],
-      shutouts: values[8],
-    };
+    const obj = {};
+    headers.forEach((header, i) => {
+      obj[header.trim()] = values[i]?.trim();
+    });
+    return obj;
   });
 
   return data;
@@ -27,18 +21,19 @@ async function fetchData() {
 function populateTable(data) {
   const tbody = document.querySelector('#stats-table tbody');
   tbody.innerHTML = '';
-  data.forEach(({ player, grade, year, goals, assists, points, GA, saves, shutouts }) => {
+
+  data.forEach(player => {
     const row = `
       <tr>
-        <td>${player}</td>
-        <td>${grade}</td>
-        <td>${year}</td>
-        <td>${goals}</td>
-        <td>${assists}</td>
-        <td>${points}</td>
-        <td>${GA}</td>
-        <td>${saves}</td>
-        <td>${shutouts}</td>
+        <td>${player.Player}</td>
+        <td>${player.Grade}</td>
+        <td>${player.Year}</td>
+        <td>${player.Goals}</td>
+        <td>${player.Assists}</td>
+        <td>${player.Points}</td>
+        <td>${player['Goals Against']}</td>
+        <td>${player.Saves}</td>
+        <td>${player.Shutouts}</td>
       </tr>
     `;
     tbody.insertAdjacentHTML('beforeend', row);
@@ -46,21 +41,27 @@ function populateTable(data) {
 }
 
 function populateYearFilter(data) {
-  const years = [...new Set(data.map(d => d.year))].sort();
+  const years = [...new Set(data.map(d => d.Year))].sort();
   const filter = document.getElementById('filter-year');
+  if (!filter) return; // Don't break if filter isn't present
+
   filter.innerHTML = '<option value="all">All Years</option>' +
     years.map(y => `<option value="${y}">${y}</option>`).join('');
 
   filter.addEventListener('change', () => {
     const selected = filter.value;
-    const filtered = selected === 'all' ? data : data.filter(d => d.year === selected);
+    const filtered = selected === 'all' ? data : data.filter(d => d.Year === selected);
     populateTable(filtered);
   });
 }
 
+// Run the fetch + populate on page load
 fetchData().then(data => {
   populateTable(data);
   populateYearFilter(data);
+}).catch(err => {
+  console.error('Error loading or parsing data:', err);
 });
+
 
     
