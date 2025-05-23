@@ -41,9 +41,17 @@ footer {
   color: #666;
 }
 
-th {
+th span {
   cursor: pointer;
   user-select: none;
+}
+
+.sorted-asc span::after {
+  content: ' ↑';
+}
+
+.sorted-desc span::after {
+  content: ' ↓';
 }
 
 th.sorted {
