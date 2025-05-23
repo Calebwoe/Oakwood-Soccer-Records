@@ -25,7 +25,7 @@ function populateTable(data) {
   data.forEach(player => {
     const row = `
       <tr>
-        <td>${player["Player Name"}]</td>
+        <td>${player["Player Name"]}</td>
         <td>${player.Grade}</td>
         <td>${player.Year}</td>
         <td>${player.Goals}</td>
