@@ -59,9 +59,8 @@ function sortCareerTable(column) {
   const tbody = table.querySelector('tbody');
   const rows = Array.from(tbody.querySelectorAll('tr'));
   const headers = Array.from(table.querySelectorAll('thead th'));
-  const columnIndex = headers.findIndex(th => th.textContent.trim().replace(/[\u2191\u2193]/g, '') === column);
+  const columnIndex = headers.findIndex(th => th.dataset.column === column);
 
-  // Determine new sort order
   if (currentSortedColumn === column) {
     currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
   } else {
@@ -73,16 +72,16 @@ function sortCareerTable(column) {
   headers.forEach(th => {
     th.classList.remove('sorted-asc', 'sorted-desc');
     const span = th.querySelector('span');
-    if (span) span.textContent = span.textContent.replace(/[\u2191\u2193]/g, '');
+    if (span) span.textContent = th.dataset.column;
   });
 
-  // Add arrow to current column
+  // Mark current column with arrow
   const current = headers[columnIndex];
   const span = current.querySelector('span');
   current.classList.add(currentSortOrder === 'asc' ? 'sorted-asc' : 'sorted-desc');
   span.textContent = column + (currentSortOrder === 'asc' ? ' ↑' : ' ↓');
 
-  // Sort logic
+  // Sort rows
   rows.sort((a, b) => {
     const cellA = a.children[columnIndex].textContent.trim();
     const cellB = b.children[columnIndex].textContent.trim();
@@ -99,5 +98,3 @@ function sortCareerTable(column) {
 
   rows.forEach(row => tbody.appendChild(row));
 }
-
-  
