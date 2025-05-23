@@ -31,7 +31,7 @@ function populateTable(data) {
         <td>${player.Goals}</td>
         <td>${player.Assists}</td>
         <td>${player["PTS"]}</td>
-        <td>${player["Goals Against"]}</td>
+        <td>${player["Goals Allowed"]}</td>
         <td>${player.Saves}</td>
         <td>${player.Shutout}</td>
       </tr>
