@@ -46,3 +46,29 @@ fetch('Oakwood Soccer Project - Individual Statistics.csv')
       tbody.insertAdjacentHTML('beforeend', row);
     });
   });
+function sortCareerTable(column) {
+  const table = document.getElementById('career-stats-table');
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+
+  const columnIndex = Array.from(table.querySelectorAll('thead th')).findIndex(th =>
+    th.textContent.trim() === column
+  );
+
+  const ascending = !table.dataset.sortOrder || table.dataset.sortOrder === 'desc';
+  table.dataset.sortOrder = ascending ? 'asc' : 'desc';
+
+  rows.sort((a, b) => {
+    const cellA = a.children[columnIndex].textContent.trim();
+    const cellB = b.children[columnIndex].textContent.trim();
+    const numA = parseFloat(cellA);
+    const numB = parseFloat(cellB);
+
+    if (!isNaN(numA) && !isNaN(numB)) {
+      return ascending ? numA - numB : numB - numA;
+    }
+    return ascending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+}
