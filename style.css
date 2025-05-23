@@ -48,5 +48,21 @@ th.sorted {
   background-color: #eef6ff;
   color: #003366;
 }
+nav {
+  margin: 10px 0;
+  text-align: center;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #003366;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
 
   
