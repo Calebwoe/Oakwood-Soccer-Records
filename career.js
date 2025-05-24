@@ -7,6 +7,7 @@ function sortCareerTable(column, isInitial = false) {
   const rows = Array.from(tbody.querySelectorAll('tr'));
   const headers = Array.from(table.querySelectorAll('thead th'));
   const columnIndex = headers.findIndex(th => th.dataset.column === column);
+  const ptsIndex = headers.findIndex(th => th.dataset.column === 'PTS');
 
   // Determine sort order
   if (!isInitial) {
@@ -14,11 +15,11 @@ function sortCareerTable(column, isInitial = false) {
       currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
     } else {
       currentSortedColumn = column;
-      currentSortOrder = 'desc'; // always start descending
+      currentSortOrder = 'desc';
     }
   } else {
     currentSortedColumn = column;
-    currentSortOrder = 'desc'; // initial load sort order
+    currentSortOrder = 'desc';
   }
 
   // Reset headers
@@ -36,22 +37,29 @@ function sortCareerTable(column, isInitial = false) {
 
   // Sort rows
   rows.sort((a, b) => {
-    const cellA = a.children[columnIndex].textContent.trim();
-    const cellB = b.children[columnIndex].textContent.trim();
-    const numA = parseFloat(cellA);
-    const numB = parseFloat(cellB);
+    const valA = a.children[columnIndex].textContent.trim();
+    const valB = b.children[columnIndex].textContent.trim();
+    const numA = parseFloat(valA);
+    const numB = parseFloat(valB);
+
+    // If sorting by Goals and values are tied, sort by PTS
+    if (column === 'Goals' && numA === numB) {
+      const ptsA = parseFloat(a.children[ptsIndex].textContent.trim());
+      const ptsB = parseFloat(b.children[ptsIndex].textContent.trim());
+      return currentSortOrder === 'asc' ? ptsA - ptsB : ptsB - ptsA;
+    }
 
     if (!isNaN(numA) && !isNaN(numB)) {
       return currentSortOrder === 'asc' ? numA - numB : numB - numA;
     }
+
     return currentSortOrder === 'asc'
-      ? cellA.toLowerCase().localeCompare(cellB.toLowerCase())
-      : cellB.toLowerCase().localeCompare(cellA.toLowerCase());
+      ? valA.toLowerCase().localeCompare(valB.toLowerCase())
+      : valB.toLowerCase().localeCompare(valA.toLowerCase());
   });
 
   rows.forEach(row => tbody.appendChild(row));
 }
-
 // Load data and build table
 fetch('Oakwood Soccer Project - Individual Statistics.csv')
   .then(res => res.text())
