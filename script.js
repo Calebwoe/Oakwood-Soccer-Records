@@ -69,20 +69,34 @@ function sortTable(key) {
   if (currentSort.key === key) {
     currentSort.asc = !currentSort.asc;
   } else {
-    currentSort = { key, asc: true };
+    currentSort = { key, asc: false }; // Default to descending
   }
 
   fetchData().then(data => {
     const sorted = data.sort((a, b) => {
       const valA = isNaN(a[key]) ? a[key] : +a[key];
       const valB = isNaN(b[key]) ? b[key] : +b[key];
-      return currentSort.asc ? valA > valB ? 1 : -1 : valA < valB ? 1 : -1;
+
+      if (!isNaN(valA) && !isNaN(valB)) {
+        if (valA === valB && key === 'Goals') {
+          const ptsA = +a["PTS"] || 0;
+          const ptsB = +b["PTS"] || 0;
+          return currentSort.asc ? ptsA - ptsB : ptsB - ptsA;
+        }
+        return currentSort.asc ? valA - valB : valB - valA;
+      }
+
+      // String sort fallback
+      return currentSort.asc
+        ? String(valA).localeCompare(valB)
+        : String(valB).localeCompare(valA);
     });
 
     populateTable(sorted);
     updateSortIndicators(key);
   });
 }
+
 
 function updateSortIndicators(sortedKey) {
   const headers = document.querySelectorAll('#stats-table thead th');
