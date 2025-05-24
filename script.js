@@ -72,30 +72,24 @@ function sortTable(key) {
     currentSort = { key, asc: false }; // Default to descending
   }
 
-  fetchData().then(data => {
-    const sorted = data.sort((a, b) => {
-      const valA = isNaN(a[key]) ? a[key] : +a[key];
-      const valB = isNaN(b[key]) ? b[key] : +b[key];
-
-      if (!isNaN(valA) && !isNaN(valB)) {
-        if (valA === valB && key === 'Goals') {
-          const ptsA = +a["PTS"] || 0;
-          const ptsB = +b["PTS"] || 0;
-          return currentSort.asc ? ptsA - ptsB : ptsB - ptsA;
-        }
-        return currentSort.asc ? valA - valB : valB - valA;
-      }
-
-      // Fallback for string values
-      return currentSort.asc
-        ? String(valA).localeCompare(valB)
-        : String(valB).localeCompare(valA);
-    });
-
-    populateTable(sorted);
-    updateSortIndicators(key);
+fetchData().then(data => {
+  // Initial sort by Goals descending
+  currentSort = { key: 'Goals', asc: false };
+  const sorted = data.sort((a, b) => {
+    const goalsA = +a.Goals || 0;
+    const goalsB = +b.Goals || 0;
+    if (goalsA === goalsB) {
+      const ptsA = +a.PTS || 0;
+      const ptsB = +b.PTS || 0;
+      return ptsB - ptsA;
+    }
+    return goalsB - goalsA;
   });
-}
+  populateTable(sorted);
+  populateYearFilter(data);
+  updateSortIndicators('Goals');
+});
+
 
 
 function updateSortIndicators(sortedKey) {
