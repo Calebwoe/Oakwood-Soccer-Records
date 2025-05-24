@@ -86,7 +86,7 @@ function sortTable(key) {
         return currentSort.asc ? valA - valB : valB - valA;
       }
 
-      // String sort fallback
+      // Fallback for string values
       return currentSort.asc
         ? String(valA).localeCompare(valB)
         : String(valB).localeCompare(valA);
